@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 2.6)
-project(TwinklebearDevLessons)
+project(othellogame)
 
 
 message("PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR}")
 
 # Use our modified FindSDL2* modules
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${TwinklebearDevLessons_SOURCE_DIR}/cmake")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${othellogame_SOURCE_DIR}/cmake")
 message("CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 
 # Set an output directory for our binaries
-set(BIN_DIR ${TwinklebearDevLessons_SOURCE_DIR}/bin)
+set(BIN_DIR ${othellogame_SOURCE_DIR}/bin)
 
 # Bump up warning levels appropriately for clang, gcc & msvc
 # Also set debug/optimization flags depending on the build type. IDE users choose this when
