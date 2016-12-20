@@ -111,20 +111,114 @@ void FindValidMoves(player plr,const std::vector<std::vector<player>> &board,std
       }
       std::vector<int> flipping;
       std::vector<int> flippingTemp;
+      int ii,jj;
 
       //north
       flippingTemp.clear();
-      int ii=i-1;
-      int jj=j;
-      while (ii>0 && board[ii][jj]==OppositePlayer(plr)){
+      ii=i-1;
+      jj=j;
+      while (ii>=0 && board[ii][jj]==OppositePlayer(plr)){
 	flippingTemp.push_back(ii*8+jj);
 	ii=ii-1;
       }
-      if(ii>0 && board[ii][jj]==plr){
+      if(ii>=0 && board[ii][jj]==plr){
+	flipping.insert(flipping.end(),flippingTemp.begin(),flippingTemp.end());
+      }
+
+      //northeast
+      flippingTemp.clear();
+      ii=i-1;
+      jj=j+1;
+      while (ii>=0 && jj<8 && board[ii][jj]==OppositePlayer(plr)){
+	flippingTemp.push_back(ii*8+jj);
+	ii=ii-1;
+	jj=jj+1;
+      }
+      if(ii>=0 && jj<8 && board[ii][jj]==plr){
+	flipping.insert(flipping.end(),flippingTemp.begin(),flippingTemp.end());
+      }
+
+      
+      
+      //east
+      flippingTemp.clear();
+      ii=i;
+      jj=j+1;
+      while (jj<8 && board[ii][jj]==OppositePlayer(plr)){
+	flippingTemp.push_back(ii*8+jj);
+	jj=jj+1;
+      }
+      if(jj<8 && board[ii][jj]==plr){
+	flipping.insert(flipping.end(),flippingTemp.begin(),flippingTemp.end());
+      }
+
+      //southeast
+      flippingTemp.clear();
+      ii=i+1;
+      jj=j+1;
+      while (jj<8 && ii<8 &&board[ii][jj]==OppositePlayer(plr)){
+	flippingTemp.push_back(ii*8+jj);
+	ii=ii+1;
+	jj=jj+1;
+      }
+      if(jj<8 && ii<8 && board[ii][jj]==plr){
+	flipping.insert(flipping.end(),flippingTemp.begin(),flippingTemp.end());
+      }
+
+      //south
+      flippingTemp.clear();
+      ii=i+1;
+      jj=j;
+      while (ii<8 && board[ii][jj]==OppositePlayer(plr)){
+	flippingTemp.push_back(ii*8+jj);
+	ii=ii+1;
+      }
+      if(ii<8 && board[ii][jj]==plr){
 	flipping.insert(flipping.end(),flippingTemp.begin(),flippingTemp.end());
       }
 
 
+
+      //southwest
+      flippingTemp.clear();
+      ii=i+1;
+      jj=j-1;
+      while (ii<8 && jj>=0 && board[ii][jj]==OppositePlayer(plr)){
+	flippingTemp.push_back(ii*8+jj);
+	ii=ii+1;
+	jj=jj-1;
+      }
+      if(ii<8 && jj>=0 && board[ii][jj]==plr){
+	flipping.insert(flipping.end(),flippingTemp.begin(),flippingTemp.end());
+      }
+
+      //west
+      flippingTemp.clear();
+      ii=i;
+      jj=j-1;
+      while (jj>=0 && board[ii][jj]==OppositePlayer(plr)){
+	flippingTemp.push_back(ii*8+jj);
+	jj=jj-1;
+      }
+      if(jj>=0 && board[ii][jj]==plr){
+	flipping.insert(flipping.end(),flippingTemp.begin(),flippingTemp.end());
+      }
+
+      //northwest
+      flippingTemp.clear();
+      ii=i-1;
+      jj=j-1;
+      while (jj>=0 && ii>=0 && board[ii][jj]==OppositePlayer(plr)){
+	flippingTemp.push_back(ii*8+jj);
+	ii=ii-1;
+	jj=jj-1;
+      }
+      if(jj>=0 && ii>=0 && board[ii][jj]==plr){
+	flipping.insert(flipping.end(),flippingTemp.begin(),flippingTemp.end());
+      }
+
+
+      
       if(flipping.size()>0){
 	validMoves.push_back(i*8+j);
 	buttonsToFlip.push_back(flipping);
