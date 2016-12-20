@@ -11,6 +11,7 @@ const int SCREEN_HEIGHT = 480;
 const int TILE_SIZE = 60;
 
 enum player{ empty,plr_black,plr_white};
+enum direction{ north,northeasst,east,southeast,south,southwest,west,northwest};
 
 
 
@@ -85,33 +86,89 @@ bool SquareOccupiedByPlayer(player plr,int sqr_i,int sqr_j,std::vector<std::vect
   }
 }
 
-
-bool Place_button(player plr,int sqr_i,int sqr_j, std::vector<std::vector<player>> &board)
+player OppositePlayer(player plr)
 {
-  bool success=true;
-  //topwards
-  if(sqr_i>0&&SquareOccupiedByOpponent(plr,sqr_i-1,sqr_j,board)){
-    bool dirSuccess=false;
-    int firstOwn_i;
-    for(int i=sqr_i-2;i>=0;i--){
-      if(SquareOccupiedByPlayer(plr,i,sqr_j,board)){
-	dirSuccess=true;
-	success=true;
-	firstOwn_i=i;
-      }
-    }
-    if (dirSuccess){
-      for(int i=sqr_i-2;i>firstOwn_i;i--){
-	board[i][sqr_j]=plr;
-      }
-    }
+  if (plr==plr_white){
+    return plr_black;
   }
-  if(success){
-    board[sqr_i][sqr_j]=plr;
+  if (plr==plr_black){
+    return plr_white;
   }
-  return success;
 }
 
+
+
+
+
+void FindValidMoves(player plr,const std::vector<std::vector<player>> &board,std::vector<int> &validMoves,std::vector<std::vector<int>> &buttonsToFlip)
+{
+  validMoves.clear();
+  buttonsToFlip.clear();
+  for(int i=0;i<8;i++){
+    for(int j=0;j<8;j++){
+      if (board[i][j]!=empty){
+	  continue;
+      }
+      std::vector<int> flipping;
+      std::vector<int> flippingTemp;
+
+      //north
+      flippingTemp.clear();
+      int ii=i-1;
+      int jj=j;
+      while (ii>0 && board[ii][jj]==OppositePlayer(plr)){
+	flippingTemp.push_back(ii*8+jj);
+	ii=ii-1;
+      }
+      if(ii>0 && board[ii][jj]==plr){
+	flipping.insert(flipping.end(),flippingTemp.begin(),flippingTemp.end());
+      }
+
+
+      if(flipping.size()>0){
+	validMoves.push_back(i*8+j);
+	buttonsToFlip.push_back(flipping);
+      }
+    }
+  }
+
+  std::cout<<"validMoves.size():"<<validMoves.size()<<"\n";
+  for(int k=0;k<validMoves.size();k++){
+    std::cout<<"validMoves:"<<validMoves[k]<<"\ti"<<validMoves[k]/8<<"\tj"<<validMoves[k]%8<<"\n";
+  }
+}
+
+
+
+
+
+
+
+
+
+
+void PlaceButton(player plr,int sqr_i,int sqr_j, std::vector<std::vector<player>> &board,int buttonsToFlipIndex, std::vector<std::vector<int>> buttonsToFlip)
+{
+  board[sqr_i][sqr_j]=plr;
+  for(std::vector<int>::iterator it=buttonsToFlip[buttonsToFlipIndex].begin();it!=buttonsToFlip[buttonsToFlipIndex].end();it++){
+    board[*it/8][*it%8]=plr;
+  }
+ 
+}
+
+
+bool CheckForValidMove(int i,int j,int &index,std::vector<int> &validMoves){
+  std::cout<<"validMoves.size():"<<validMoves.size()<<"\n";
+  for(index=0;index<validMoves.size();index++){
+    std::cout<<"index:"<<index<<"\n";
+    if (validMoves[index]==(i*8+j)){
+      std::cout<<"check_true\n";
+      return true;
+    }
+  }
+  std::cout<<"check_false\n";
+  return false;
+}
 
 
 int main()
@@ -159,6 +216,13 @@ int main()
   board[4][4]=plr_white;
   board[4][3]=plr_black;
   player playerInTurn=plr_black;
+  
+  std::vector<int> validMoves;
+  std::vector<std::vector<int>> buttonsToFlip;
+  FindValidMoves(playerInTurn,board,validMoves, buttonsToFlip);
+
+  std::cout<<"before while validMoves.size()"<<validMoves.size()<<"\n";
+  
   while (!quit){
     int click_i,click_j;
     bool click=false;
@@ -175,24 +239,25 @@ int main()
       if (e.type == SDL_MOUSEBUTTONDOWN){
 	int mouseX,mouseY;
 	SDL_GetMouseState(&mouseX,&mouseY);
-	click_i=mouseX/60;
-	click_j=mouseY/60;
+	click_j=mouseX/60;
+	click_i=mouseY/60;
 	click=true;
       }
 
 
+      
+      
       if (click){
-	if (playerInTurn==plr_white){
-	  std::cout<<"white";
-	  std::cout<<click_i<<click_j<<"\n";
-	  Place_button(playerInTurn,click_i,click_j, board);
-	  playerInTurn=plr_black;
-	}else if (playerInTurn==plr_black){
-	  std::cout<<"black";
-	  std::cout<<click_i<<click_j<<"\n";
-	  Place_button(playerInTurn,click_i,click_j, board);
-	  playerInTurn=plr_white;
-	}
+	int buttonsToFlipIndex;
+	if (CheckForValidMove(click_i,click_j,buttonsToFlipIndex,validMoves)){
+	    PlaceButton(playerInTurn,click_i,click_j, board,buttonsToFlipIndex,buttonsToFlip);
+	    playerInTurn=OppositePlayer(playerInTurn);
+	    FindValidMoves(playerInTurn,board,validMoves, buttonsToFlip);
+	    if(validMoves.size()==0){
+	      playerInTurn=OppositePlayer(playerInTurn);
+	      FindValidMoves(playerInTurn,board,validMoves, buttonsToFlip);
+	    }
+	}	
       }
 
       //Rendering
@@ -200,16 +265,16 @@ int main()
       //Draw the image
       for (int i=0;i<8;i++){
 	for (int j=0;j<8;j++){
-	  renderTexture(emptysquare, renderer, i*TILE_SIZE, j*TILE_SIZE);
+	  renderTexture(emptysquare, renderer, j*TILE_SIZE, i*TILE_SIZE);
 	  switch(board[i][j])
 	    {
 	    case empty:
 	      break;
 	    case plr_white:
-	      renderTexture(whitebutton, renderer, i*TILE_SIZE, j*TILE_SIZE);
+	      renderTexture(whitebutton, renderer, j*TILE_SIZE, i*TILE_SIZE);
 	      break;
 	    case plr_black:
-	      renderTexture(blackbutton, renderer, i*TILE_SIZE, j*TILE_SIZE);
+	      renderTexture(blackbutton, renderer, j*TILE_SIZE, i*TILE_SIZE);
 	      break;
 	    }
 	  
