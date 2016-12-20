@@ -91,9 +91,10 @@ player OppositePlayer(player plr)
   if (plr==plr_white){
     return plr_black;
   }
-  if (plr==plr_black){
+  else if (plr==plr_black){
     return plr_white;
   }
+  return empty;//to surpress warning
 }
 
 
@@ -225,11 +226,7 @@ void FindValidMoves(player plr,const std::vector<std::vector<player>> &board,std
       }
     }
   }
-
   std::cout<<"validMoves.size():"<<validMoves.size()<<"\n";
-  for(int k=0;k<validMoves.size();k++){
-    std::cout<<"validMoves:"<<validMoves[k]<<"\ti"<<validMoves[k]/8<<"\tj"<<validMoves[k]%8<<"\n";
-  }
 }
 
 
@@ -252,9 +249,7 @@ void PlaceButton(player plr,int sqr_i,int sqr_j, std::vector<std::vector<player>
 
 
 bool CheckForValidMove(int i,int j,int &index,std::vector<int> &validMoves){
-  std::cout<<"validMoves.size():"<<validMoves.size()<<"\n";
   for(index=0;index<validMoves.size();index++){
-    std::cout<<"index:"<<index<<"\n";
     if (validMoves[index]==(i*8+j)){
       std::cout<<"check_true\n";
       return true;
@@ -315,8 +310,6 @@ int main()
   std::vector<std::vector<int>> buttonsToFlip;
   FindValidMoves(playerInTurn,board,validMoves, buttonsToFlip);
 
-  std::cout<<"before while validMoves.size()"<<validMoves.size()<<"\n";
-  
   while (!quit){
     int click_i,click_j;
     bool click=false;
@@ -384,8 +377,7 @@ int main()
   cleanup( blackbutton,whitebutton,emptysquare, renderer, window);
   IMG_Quit();
   SDL_Quit();
-  
-  std::cout<<"Hello world!\n";
+  std::cout<<"end\n";
 }
 
 
