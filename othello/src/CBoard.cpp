@@ -1,11 +1,17 @@
 
-CBoard::CBoard()
+CBoard::CBoard(CPlayer* blackPlayer, Cplayer* whitePlayer)
 {
   std::vector<std::vector<color>> board(8,std::vector<color>(8,empty));
   board[3][3]=plr_white;
   board[3][4]=plr_black;
   board[4][4]=plr_white;
   board[4][3]=plr_black;
+  playerInTurn=blackPlayer;
+  playerNotInTurn=whitePlayer;
+  FindValidMoves(playerInTurn.color,board,validMoves, buttonsToFlip);
+  moveRdy=false;
+  moveI=0;
+  moveJ=0;
 }
 
 
@@ -31,7 +37,33 @@ bool CBoard::SquareOccupiedByOpponent(color plr,int sqr_i,int sqr_j,std::vector<
 }
 
 
+bool CBoard::CBoard.PlayerInTurnGetMove()
+{
+  return playerInTurn->GetMove(moveI,moveJ);
+}
 
+
+  
+bool CBoard::CBoard.PlayerInTurnUseMove()
+{
+  int buttonsToLipIndex;
+  if (CBoard::CheckForValidMove(moveI,moveJ,buttonsToLipIndex,validMoves)){
+    CBoard::PlaceDisk(playerInTurn->color,moveI,moveJ, board,buttonsToFlipIndex,buttonsToFlip);
+    return true;
+  }
+  else
+    return false;
+}
+
+
+void CBoard::CBoard.DetermineNewPlayerInTurn(){
+  std::swap(playerInTurn,PlayerNotInTurn);
+  FindValidMoves(playerInTurn.plrColor,board,validMoves, buttonsToFlip);
+  if (validMoves.size()=0){
+    std::swap(playerInTurn,PlayerNotInTurn);
+    FindValidMoves(playerInTurn.plrColor,board,validMoves, buttonsToFlip);
+  }
+}
 
 
 
@@ -172,7 +204,7 @@ void CBoard::FindValidMoves(color plr,const std::vector<std::vector<color>> &boa
 
 
 
-void CBoard::PlaceButton(color plr,int sqr_i,int sqr_j, std::vector<std::vector<color>> &board,int buttonsToFlipIndex, std::vector<std::vector<int>> buttonsToFlip)
+void CBoard::PlaceDisk(color plr,int sqr_i,int sqr_j, std::vector<std::vector<color>> &board,int buttonsToFlipIndex, std::vector<std::vector<int>> buttonsToFlip)
 {
   board[sqr_i][sqr_j]=plr;
   for(std::vector<int>::iterator it=buttonsToFlip[buttonsToFlipIndex].begin();it!=buttonsToFlip[buttonsToFlipIndex].end();it++){

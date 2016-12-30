@@ -5,13 +5,17 @@
 #include <string>
 #include <SDL_image.h>
 #include <vector>
+#include "OthelloUtil.h"
+#include "CInputParser.h"
+#include "CPlayer.h"
+#include "CBoard.h"
 
 const int SCREEN_WIDTH  = 480;
 const int SCREEN_HEIGHT = 480;
 const int TILE_SIZE = 60;
 
-enum color{ empty,plr_black,plr_white};
-enum direction{ north,northeasst,east,southeast,south,southwest,west,northwest};
+
+
 
 
 
@@ -121,13 +125,20 @@ int main()
   }
 
 
-  color colorInTurn=plr_black;  
-  std::vector<int> validMoves;
-  std::vector<std::vector<int>> buttonsToFlip;
-  FindValidMoves(colorInTurn,board,validMoves, buttonsToFlip);
-  while (!quit){
+
+
+
+  CHumanPlayer player1(&input);
+  CHumanPlayer player2(&input);
+  CBoard board(&player1,&player2);
+
+  while (!input.QuitRequested()){
     input.ParseInput();
-    
+    if(CBoard.PlayerInTurnGetMove()){
+      if(CBoard.PlayerInTurnUseMove()){
+	CBoard.DetermineNewPlayerInTurn();
+      }
+    }
     //Rendering
     SDL_RenderClear(renderer);
     //Draw the image

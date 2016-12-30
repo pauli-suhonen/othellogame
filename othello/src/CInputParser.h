@@ -10,7 +10,7 @@ public:
   bool clickedOnLastFrame;
   int click_j;
   int click_i;
-}
+};
 
 
 
