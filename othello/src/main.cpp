@@ -8,7 +8,7 @@
 #include "OthelloUtil.h"
 #include "CInputParser.h"
 #include "CPlayer.h"
-#include "CBoard.h"
+#include "COthelloInstance.h"
 
 const int SCREEN_WIDTH  = 480;
 const int SCREEN_HEIGHT = 480;
@@ -130,13 +130,13 @@ int main()
 
   CHumanPlayer player1(&input);
   CHumanPlayer player2(&input);
-  CBoard board(&player1,&player2);
+  COthelloInstance gameInstance(&player1,&player2);
 
   while (!input.QuitRequested()){
     input.ParseInput();
-    if(CBoard.PlayerInTurnGetMove()){
-      if(CBoard.PlayerInTurnUseMove()){
-	CBoard.DetermineNewPlayerInTurn();
+    if(gameInstance.PlayerInTurnGetMove()){
+      if(gameInstance.PlayerInTurnUseMove()){
+	gameInstance.DetermineNewPlayerInTurn();
       }
     }
     //Rendering
@@ -145,7 +145,7 @@ int main()
     for (int i=0;i<8;i++){
       for (int j=0;j<8;j++){
 	renderTexture(emptysquare, renderer, j*TILE_SIZE, i*TILE_SIZE);
-	switch(board[i][j])
+	switch(gameInstance.board[i][j])
 	  {
 	  case empty:
 	    break;
@@ -161,10 +161,6 @@ int main()
     }
     //Update the screen
     SDL_RenderPresent(renderer);
-
-
-      
-    }
   }
   cleanup( blackbutton,whitebutton,emptysquare, renderer, window);
   IMG_Quit();
