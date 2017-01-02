@@ -4,5 +4,8 @@
 enum color{ empty,plr_black,plr_white};
 enum direction{ north,northeasst,east,southeast,south,southwest,west,northwest};
 
+color OppositeColor(color plr);
+
+
 
 #endif

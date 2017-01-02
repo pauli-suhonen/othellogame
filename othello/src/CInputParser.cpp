@@ -1,10 +1,12 @@
+#include "CInputParser.h"
+#include <SDL.h>
+#include <string>
+
 void CInputParser::ParseInput()
 {
   clickedOnLastFrame=false;
   SDL_Event e;
   while (SDL_PollEvent(&e)){
-    int click_i,click_j;
-    bool click=false; 
     //If user closes the window
     if (e.type == SDL_QUIT){
       quit = true;
@@ -15,7 +17,7 @@ void CInputParser::ParseInput()
       SDL_GetMouseState(&mouseX,&mouseY);
       click_j=mouseX/60;
       click_i=mouseY/60;
-      clickedOnLastFrame=false;
+      clickedOnLastFrame=true;
    }
   }
 }

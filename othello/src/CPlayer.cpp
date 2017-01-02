@@ -1,22 +1,6 @@
-#inlude "CInputParser.h"
+#include "CPlayer.h"
 
-bool CHumanPlayer::CHumanPlayer(CInputParser *param_input)
-{
-  input=param_input;
-}
-
-
-
-CHumanPlayer::GetMove(int &moveI, int &moveJ)
-{
-  if (input.clickedOnLastFrame){
-    int buttonsToFlipIndex;
-    moveI=input.click_i;
-    moveJ=input.click_j;
-    return true;
-  }
-  return false;
-}
+CPlayer::CPlayer(color param_plrColor):plrColor(param_plrColor){}
 
 
 

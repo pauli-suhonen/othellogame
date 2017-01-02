@@ -6,24 +6,11 @@
 class CPlayer{
 protected:
 public:
+  CPlayer(color);
   color plrColor;
-  virtual bool GetMove();
+  virtual bool GetMove(int &moveI,int &moveJ)=0;
 };
 
-
-
-
-
-class CHumanPlayer:public CPlayer{
- public:
-  CInputParser *input;
-  CHumanPlayer(CInputParser *param_input);
-  bool GetMove(int &moveI, int &moveJ);
-};
-
-
-class CComputerPlayer:public CPlayer{
-};
 
 
 #endif

@@ -8,6 +8,7 @@
 #include "OthelloUtil.h"
 #include "CInputParser.h"
 #include "CPlayer.h"
+#include "CHumanPlayer.h"
 #include "COthelloInstance.h"
 
 const int SCREEN_WIDTH  = 480;
@@ -75,16 +76,7 @@ void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y){
 
 
 
-color OppositeColor(color plr)
-{
-  if (plr==plr_white){
-    return plr_black;
-  }
-  else if (plr==plr_black){
-    return plr_white;
-  }
-  return empty;//to surpress warning
-}
+
 
 
 
@@ -128,8 +120,8 @@ int main()
 
 
 
-  CHumanPlayer player1(&input);
-  CHumanPlayer player2(&input);
+  CHumanPlayer player1(&input,plr_black);
+  CHumanPlayer player2(&input,plr_white);
   COthelloInstance gameInstance(&player1,&player2);
 
   while (!input.QuitRequested()){

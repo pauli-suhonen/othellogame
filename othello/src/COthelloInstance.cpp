@@ -2,6 +2,7 @@
 #include "COthelloInstance.h"
 #include <vector>
 #include "CPlayer.h"
+#include <iostream>
 
 COthelloInstance::COthelloInstance(CPlayer* blackPlayer, CPlayer* whitePlayer)
 {
@@ -12,7 +13,10 @@ COthelloInstance::COthelloInstance(CPlayer* blackPlayer, CPlayer* whitePlayer)
   board[4][3]=plr_black;
   playerInTurn=blackPlayer;
   playerNotInTurn=whitePlayer;
+  std::cout<<"Fc\n";
+  std::cout<<playerInTurn->plrColor<<"\n";
   FindValidMoves(playerInTurn->plrColor,board,validMoves, buttonsToFlip);
+  std::cout<<"Sc\n";
   moveAcquired=false;
   moveI=0;
   moveJ=0;
@@ -31,7 +35,7 @@ bool COthelloInstance::SquareOccupiedByColor(color plr,int sqr_i,int sqr_j,std::
 
     
 
-bool COthelloInstance::SquareOccupiedByOpponent(color plr,int sqr_i,int sqr_j,std::vector<std::vector<color>> &board);
+bool COthelloInstance::SquareOccupiedByOpponent(color plr,int sqr_i,int sqr_j,std::vector<std::vector<color>> &board)
 {
   if(board[sqr_i][sqr_j]!=plr && board[sqr_i][sqr_j]!=empty){
     return true;
@@ -50,9 +54,11 @@ bool COthelloInstance::PlayerInTurnGetMove()
   
 bool COthelloInstance::PlayerInTurnUseMove()
 {
-  int buttonsToLipIndex;
-  if (this->CheckForValidMove(moveI,moveJ,buttonsToLipIndex,validMoves)){
-    this->PlaceDisk(playerInTurn->color,moveI,moveJ, board,buttonsToFlipIndex,buttonsToFlip);
+  int buttonsToFlipIndex;
+  std::cout<<"jee\n";
+  std::cout<<moveI<<" "<<moveJ<<"\n";
+  if (this->CheckForValidMove(moveI,moveJ,buttonsToFlipIndex,validMoves)){
+    this->PlaceDisk(playerInTurn->plrColor,moveI,moveJ, board,buttonsToFlipIndex,buttonsToFlip);
     return true;
   }
   else
@@ -61,11 +67,11 @@ bool COthelloInstance::PlayerInTurnUseMove()
 
 
 void COthelloInstance::DetermineNewPlayerInTurn(){
-  std::swap(playerInTurn,PlayerNotInTurn);
-  FindValidMoves(playerInTurn.plrColor,board,validMoves, buttonsToFlip);
-  if (validMoves.size()=0){
-    std::swap(playerInTurn,PlayerNotInTurn);
-    FindValidMoves(playerInTurn.plrColor,board,validMoves, buttonsToFlip);
+  std::swap(playerInTurn,playerNotInTurn);
+  FindValidMoves(playerInTurn->plrColor,board,validMoves, buttonsToFlip);
+  if (validMoves.size()==0){
+    std::swap(playerInTurn,playerNotInTurn);
+    FindValidMoves(playerInTurn->plrColor,board,validMoves, buttonsToFlip);
   }
 }
 
@@ -218,8 +224,9 @@ void COthelloInstance::PlaceDisk(color plr,int sqr_i,int sqr_j, std::vector<std:
 }
 
 
-bool COthelloInstance::CheckForValidMove(int i,int j,int &index,std::vector<int> &validMoves);
+bool COthelloInstance::CheckForValidMove(int i,int j,int &index,std::vector<int> &validMoves)
 {
+  std::cout<<"validMoves.size():"<<validMoves.size()<<"\n";
   for(index=0;index<validMoves.size();index++){
     if (validMoves[index]==(i*8+j)){
       std::cout<<"check_true\n";
