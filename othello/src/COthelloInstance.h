@@ -9,6 +9,7 @@
 
 class COthelloInstance{
  public:
+  bool gameEnded;
   std::vector<std::vector<color>> board;
   int moveNro;
   CPlayer* playerInTurn;

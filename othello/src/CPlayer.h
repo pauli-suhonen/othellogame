@@ -2,13 +2,14 @@
 #define CPLAYER_H
 #include "OthelloUtil.h"
 #include "CInputParser.h"
+#include <vector>
 
 class CPlayer{
 protected:
 public:
   CPlayer(color);
   color plrColor;
-  virtual bool GetMove(int &moveI,int &moveJ)=0;
+  virtual bool GetMove(std::vector<std::vector<color>> currentBoard,int &moveI,int &moveJ)=0;
 };
 
 

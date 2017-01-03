@@ -8,11 +8,9 @@ class CHumanPlayer:public CPlayer{
  public:
   CInputParser *input;
   CHumanPlayer(CInputParser *param_input,color);
-  bool GetMove(int &moveI, int &moveJ);
+  bool GetMove(std::vector<std::vector<color>> currentBoard,int &moveI, int &moveJ);
 };
 
 
-class CComputerPlayer:public CPlayer{
-};
 
 #endif

@@ -8,6 +8,7 @@
 #include "OthelloUtil.h"
 #include "CInputParser.h"
 #include "CPlayer.h"
+#include "CComputerPlayer.h"
 #include "CHumanPlayer.h"
 #include "COthelloInstance.h"
 
@@ -121,10 +122,10 @@ int main()
 
 
   CHumanPlayer player1(&input,plr_black);
-  CHumanPlayer player2(&input,plr_white);
+  CComputerPlayer player2(plr_white);
   COthelloInstance gameInstance(&player1,&player2);
 
-  while (!input.QuitRequested()){
+  while (!input.QuitRequested() && !gameInstance.gameEnded){
     input.ParseInput();
     if(gameInstance.PlayerInTurnGetMove()){
       if(gameInstance.PlayerInTurnUseMove()){

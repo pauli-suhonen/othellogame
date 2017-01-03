@@ -1,89 +1,25 @@
-#include "OthelloUtil.h"
-#include "COthelloInstance.h"
-#include <vector>
-#include "CPlayer.h"
+#include "AI1.h"
 #include <iostream>
 
-COthelloInstance::COthelloInstance(CPlayer* blackPlayer, CPlayer* whitePlayer)
+
+
+AI1::AI1(int *evaluatedMoveI,int *evaluatedMoveJ,bool *evaluationReady,std::vector<std::vector<color>> currentBoard,color plrColor)
 {
-  board =std::vector<std::vector<color>>(8,std::vector<color>(8,empty));
-  board[3][3]=plr_white;
-  board[3][4]=plr_black;
-  board[4][4]=plr_white;
-  board[4][3]=plr_black;
-  playerInTurn=blackPlayer;
-  playerNotInTurn=whitePlayer;
-  std::cout<<"Fc\n";
-  std::cout<<playerInTurn->plrColor<<"\n";
-  FindValidMoves(playerInTurn->plrColor,board,validMoves, buttonsToFlip);
-  std::cout<<"Sc\n";
-  moveAcquired=false;
-  gameEnded=false;
-  moveI=0;
-  moveJ=0;
-}
-
-
-
-bool COthelloInstance::SquareOccupiedByColor(color plr,int sqr_i,int sqr_j,std::vector<std::vector<color>> &board)
-{
-  if(board[sqr_i][sqr_j]==plr){
-    return true;
-  }else {
-    return false;
-  }
-}
-
-    
-
-bool COthelloInstance::SquareOccupiedByOpponent(color plr,int sqr_i,int sqr_j,std::vector<std::vector<color>> &board)
-{
-  if(board[sqr_i][sqr_j]!=plr && board[sqr_i][sqr_j]!=empty){
-    return true;
-  }else {
-    return false;
-  }
-}
-
-
-bool COthelloInstance::PlayerInTurnGetMove()
-{
-  return playerInTurn->GetMove(board,moveI,moveJ);
-}
-
-
-  
-bool COthelloInstance::PlayerInTurnUseMove()
-{
-  int buttonsToFlipIndex;
-  std::cout<<"jee\n";
-  std::cout<<moveI<<" "<<moveJ<<"\n";
-  if (this->CheckForValidMove(moveI,moveJ,buttonsToFlipIndex,validMoves)){
-    this->PlaceDisk(playerInTurn->plrColor,moveI,moveJ, board,buttonsToFlipIndex,buttonsToFlip);
-    return true;
-  }
-  else
-    return false;
-}
-
-
-void COthelloInstance::DetermineNewPlayerInTurn(){
-  std::swap(playerInTurn,playerNotInTurn);
-  FindValidMoves(playerInTurn->plrColor,board,validMoves, buttonsToFlip);
-  if (validMoves.size()==0){
-    std::swap(playerInTurn,playerNotInTurn);
-    FindValidMoves(playerInTurn->plrColor,board,validMoves, buttonsToFlip);
-    if (validMoves.size()==0){
-      std::cout<<"gameEnded\n";
-      gameEnded=true;
-    }
-  }
+  std::vector<int> validMoves;
+  std::vector<std::vector<int>> buttonsToFlip;
+  FindValidMoves(plrColor,currentBoard,validMoves,buttonsToFlip);
+  std::cout<<plrColor<<"\n";
+  std::cout<<"validMoves.size()asdf:"<<validMoves.size()<<"\n";
+  *evaluatedMoveI=validMoves[0]/8;
+  *evaluatedMoveJ=validMoves[0]%8;
+  *evaluationReady=true;
 }
 
 
 
 
-void COthelloInstance::FindValidMoves(color plr,const std::vector<std::vector<color>> &board,std::vector<int> &validMoves,std::vector<std::vector<int>> &buttonsToFlip)
+
+void AI1::FindValidMoves(color plr,const std::vector<std::vector<color>> &board,std::vector<int> &validMoves,std::vector<std::vector<int>> &buttonsToFlip)
 {
   validMoves.clear();
   buttonsToFlip.clear();
@@ -211,33 +147,3 @@ void COthelloInstance::FindValidMoves(color plr,const std::vector<std::vector<co
   std::cout<<"validMoves.size():"<<validMoves.size()<<"\n";
 }
 
-
-
-
-
-
-
-
-
-void COthelloInstance::PlaceDisk(color plr,int sqr_i,int sqr_j, std::vector<std::vector<color>> &board,int buttonsToFlipIndex, std::vector<std::vector<int>> buttonsToFlip)
-{
-  board[sqr_i][sqr_j]=plr;
-  for(std::vector<int>::iterator it=buttonsToFlip[buttonsToFlipIndex].begin();it!=buttonsToFlip[buttonsToFlipIndex].end();it++){
-    board[*it/8][*it%8]=plr;
-  }
- 
-}
-
-
-bool COthelloInstance::CheckForValidMove(int i,int j,int &index,std::vector<int> &validMoves)
-{
-  std::cout<<"validMoves.size():"<<validMoves.size()<<"\n";
-  for(index=0;index<validMoves.size();index++){
-    if (validMoves[index]==(i*8+j)){
-      std::cout<<"check_true\n";
-      return true;
-    }
-  }
-  std::cout<<"check_false\n";
-  return false;
-}
