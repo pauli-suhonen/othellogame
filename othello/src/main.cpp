@@ -1,6 +1,7 @@
 #include<iostream>
 #include <string>
 #include <vector>
+#include "CGameHumanVsHuman.h"
 #include "CGameHumanVsAI1.h"
 #include "CGameAI1VsAI1.h"
 
@@ -18,6 +19,9 @@ int main()
     int mode=0;
     while (!(mode==1 ||mode==2 || mode==3 || mode==4 || mode==5)){
       std::cin>>mode;
+    }
+    if (mode==1){
+      CGameHumanVsHuman game;
     }
     if (mode==2){
       CGameHumanVsAI1 game;
