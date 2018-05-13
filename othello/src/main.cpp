@@ -27,6 +27,9 @@ int main()
     }
     boardGui.Render(gameInstance.board);
   }
+  while (!boardGui.input.QuitRequested()){
+    boardGui.input.ParseInput();
+  }
   IMG_Quit();
   SDL_Quit();
   std::cout<<"end\n";
