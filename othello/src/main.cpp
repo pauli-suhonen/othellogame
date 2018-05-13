@@ -1,38 +1,30 @@
 #include<iostream>
 #include <string>
 #include <vector>
-#include "OthelloUtil.h"
-#include "CInputParser.h"
-#include "CBoardGUI.h"
-#include "CPlayer.h"
-#include "CComputerPlayer.h"
-#include "CHumanPlayer.h"
-#include "COthelloInstance.h"
+#include "CGameHumanVsAI1.h"
+
 
 int main()
 {
-  CBoardGUI boardGui;
-  if (boardGui.Init())
-    return 1;
-  CHumanPlayer player1(&boardGui.input,plr_black);
-  CComputerPlayer player2(plr_white);
-  COthelloInstance gameInstance(&player1,&player2);
-
-  while (!boardGui.input.QuitRequested() && !gameInstance.gameEnded){
-    boardGui.input.ParseInput();
-    if(gameInstance.PlayerInTurnGetMove()){
-      if(gameInstance.PlayerInTurnUseMove()){
-	gameInstance.DetermineNewPlayerInTurn();
-      }
+  while (1){
+    std::cout<<"Othello game\n";
+    std::cout<<"1: human vs human\n";
+    std::cout<<"2: human vs AI1\n";
+    std::cout<<"3: AI1 vs AI1\n";
+    std::cout<<"4: AI breed\n";
+    std::cout<<"5: quit\n";
+    std::cout<<"Select mode:";
+    int mode=0;
+    while (!(mode==1 ||mode==2 || mode==3 || mode==4 || mode==5)){
+      std::cin>>mode;
     }
-    boardGui.Render(gameInstance.board);
+    if (mode==2){
+      CGameHumanVsAI1 game;
+    }
+    if (mode==5){
+      return 0;
+    }
   }
-  while (!boardGui.input.QuitRequested()){
-    boardGui.input.ParseInput();
-  }
-  IMG_Quit();
-  SDL_Quit();
-  std::cout<<"end\n";
 }
 
 

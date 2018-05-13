@@ -126,4 +126,6 @@ void CBoardGUI::Render(std::vector<std::vector<color>> board)
 CBoardGUI::~CBoardGUI()
 {
   cleanup( blackbutton,whitebutton,emptysquare, renderer, window);
+  IMG_Quit();
+  SDL_Quit();
 }
