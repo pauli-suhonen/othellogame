@@ -1,6 +1,6 @@
 project(othello)
 find_package(SDL2_image REQUIRED)
 include_directories(${SDL2_IMAGE_INCLUDE_DIR})
-add_executable(othello src/main.cpp src/COthelloInstance.cpp src/CInputParser.cpp src/CInputParser.cpp src/CHumanPlayer.cpp src/CComputerPlayer.cpp src/CPlayer.cpp src/OthelloUtil.cpp src/AI1.cpp src/CBoardGUI.cpp src/CGameHumanVsAI1.cpp)
+add_executable(othello src/main.cpp src/COthelloInstance.cpp src/CInputParser.cpp src/CInputParser.cpp src/CHumanPlayer.cpp src/CComputerPlayer.cpp src/CPlayer.cpp src/OthelloUtil.cpp src/AI1.cpp src/CBoardGUI.cpp src/CGameHumanVsAI1.cpp src/CGameAI1VsAI1.cpp)
 target_link_libraries(othello ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY})
 install(TARGETS othello RUNTIME DESTINATION ${BIN_DIR})

@@ -1,15 +1,14 @@
-#include "CGameHumanVsAI1.h"
+#include "CGameAI1VsAI1.h"
 #include "OthelloUtil.h"
 #include "CInputParser.h"
 #include "CBoardGUI.h"
 #include "CPlayer.h"
 #include "CComputerPlayer.h"
-#include "CHumanPlayer.h"
 #include "COthelloInstance.h"
 #include "SDL.h"
 
-CGameHumanVsAI1::CGameHumanVsAI1():
-  player1(CHumanPlayer(&boardGui.input,plr_black)),
+CGameAI1VsAI1::CGameAI1VsAI1():
+  player1(CComputerPlayer(plr_black)),
   player2(CComputerPlayer(plr_white)),
   gameInstance(COthelloInstance(&player1,&player2))
   

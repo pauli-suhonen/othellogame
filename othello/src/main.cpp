@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "CGameHumanVsAI1.h"
+#include "CGameAI1VsAI1.h"
 
 
 int main()
@@ -20,6 +21,9 @@ int main()
     }
     if (mode==2){
       CGameHumanVsAI1 game;
+    }
+    if (mode==3){
+      CGameAI1VsAI1 game;
     }
     if (mode==5){
       return 0;
