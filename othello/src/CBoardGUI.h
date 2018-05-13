@@ -2,10 +2,10 @@
 #define CBOARDGUI_H
 
 #include <SDL.h>
-#include <string>
 #include <SDL_image.h>
-#include <vector>
 #include<iostream>
+#include <string>
+#include <vector>
 #include "res_path.h"
 #include "cleanup.h"
 #include "OthelloUtil.h"
@@ -18,8 +18,11 @@
 
 class CBoardGUI{
  public:
+  CBoardGUI();
+  ~CBoardGUI();
+  int Init();
   CInputParser input;
-  Render(std::vector<std::vector<color>> board);
+  void Render(std::vector<std::vector<color>> board);
  private:
   const int SCREEN_WIDTH  = 480;
   const int SCREEN_HEIGHT = 480;
@@ -33,7 +36,7 @@ class CBoardGUI{
   SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren);
   void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, int h);
   void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y);
-}
+};
 
 
-#endif CBOARDGUI_H
+#endif

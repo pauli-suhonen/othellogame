@@ -1,6 +1,12 @@
+#include "CBoardGUI.h"
+
 CBoardGUI::CBoardGUI()
 {
-  if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
+}
+
+int CBoardGUI::Init()
+{
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
     logSDLError(std::cout, "SDL_Init");
     return 1;
   }
@@ -30,8 +36,8 @@ CBoardGUI::CBoardGUI()
     SDL_Quit();
     return 1;
   }
+  return 0;
 }
-
 
 
 
@@ -116,3 +122,8 @@ void CBoardGUI::Render(std::vector<std::vector<color>> board)
     SDL_RenderPresent(renderer);
 }
 
+  
+CBoardGUI::~CBoardGUI()
+{
+  cleanup( blackbutton,whitebutton,emptysquare, renderer, window);
+}
