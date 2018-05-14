@@ -1,0 +1,45 @@
+##################
+##################
+Compiling from source on Ubuntu
+##################
+##################
+
+
+Requirements:
+##################
+cmake:
+sudo apt install cmake
+SDL2:
+sudo apt install libsdl2-dev
+SDL_mixer 2.0:
+sudo apt install libsdl2-mixer-dev
+SDL_image.
+sudo apt install libsdl2-image-dev
+
+
+Compilation
+##################
+In directory othellogame/
+mkdir build
+cd build
+cmake ..
+make
+cp -r ../res/ othello/
+##################
+
+Copy resource files to the directory with the binary
+##################
+In directory build/
+cp -r ../res/ othello/
+##################
+
+
+Running the game
+##################
+In directory build/
+./othello/othello
+##################
+
+
+
+

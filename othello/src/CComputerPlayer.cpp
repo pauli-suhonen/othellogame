@@ -1,13 +1,19 @@
 #include "CComputerPlayer.h"
 #include "CPlayer.h"
 #include "OthelloUtil.h"
-#include "AI1.h"
+#include "CAI.h"
+#include "CAI1.h"
 
 
 CComputerPlayer::CComputerPlayer(color param_plrColor):CPlayer(param_plrColor)
 {
   moveRequested=false;
   evaluationReady=false;
+}
+
+void CComputerPlayer::SetAI(CAI* param_ai)
+{
+  ai=param_ai;
 }
 
 
@@ -40,5 +46,6 @@ bool CComputerPlayer::GetMove(std::vector<std::vector<color>> currentBoard,int &
 
 void CComputerPlayer::EvaluateNextMove(std::vector<std::vector<color>> currentBoard)
 {
-  AI1 evaluationAI(&evaluatedMoveI,&evaluatedMoveJ,&evaluationReady,currentBoard,plrColor);
+  ai->EvaluateMove(&evaluatedMoveI,&evaluatedMoveJ,&evaluationReady,currentBoard,plrColor);
 }
+

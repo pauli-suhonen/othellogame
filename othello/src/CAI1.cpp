@@ -1,9 +1,14 @@
-#include "AI1.h"
+#include "CAI.h"
+#include "CAI1.h"
 #include <iostream>
 
 
 
-AI1::AI1(int *evaluatedMoveI,int *evaluatedMoveJ,bool *evaluationReady,std::vector<std::vector<color>> currentBoard,color plrColor)
+CAI1::CAI1()
+{
+}
+
+void CAI1::EvaluateMove(int *evaluatedMoveI,int *evaluatedMoveJ,bool *evaluationReady,std::vector<std::vector<color>> currentBoard,color plrColor)
 {
   std::vector<int> validMoves;
   std::vector<std::vector<int>> buttonsToFlip;
@@ -17,9 +22,7 @@ AI1::AI1(int *evaluatedMoveI,int *evaluatedMoveJ,bool *evaluationReady,std::vect
 
 
 
-
-
-void AI1::FindValidMoves(color plr,const std::vector<std::vector<color>> &board,std::vector<int> &validMoves,std::vector<std::vector<int>> &buttonsToFlip)
+void CAI1::FindValidMoves(color plr,const std::vector<std::vector<color>> &board,std::vector<int> &validMoves,std::vector<std::vector<int>> &buttonsToFlip)
 {
   validMoves.clear();
   buttonsToFlip.clear();

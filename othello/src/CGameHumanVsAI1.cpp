@@ -7,6 +7,8 @@
 #include "CHumanPlayer.h"
 #include "COthelloInstance.h"
 #include "SDL.h"
+#include "CAI.h"
+#include "CAI1.h"
 
 CGameHumanVsAI1::CGameHumanVsAI1():
   player1(CHumanPlayer(&boardGui.input,plr_black)),
@@ -14,6 +16,9 @@ CGameHumanVsAI1::CGameHumanVsAI1():
   gameInstance(COthelloInstance(&player1,&player2))
   
 {
+  CAI1 ai;
+  CAI1* p_CAI=&ai;  
+  player2.SetAI(p_CAI);
   if (boardGui.Init())
     std::cout<<"Error in boardGui.Init()\n";
   boardGui.Render(gameInstance.board);
