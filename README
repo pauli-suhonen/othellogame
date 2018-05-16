@@ -1,5 +1,15 @@
 ##################
 ##################
+General information
+##################
+##################This is a simple othello game. This game is still under development. I am planning on using this to experiment with neural network learning.
+
+The project uses external SDL2 library for graphics and keyboard/mouse input. Information on SDL is available at https://www.libsdl.org/index.php.
+
+
+
+##################
+##################
 Compiling from source on Ubuntu
 ##################
 ##################
